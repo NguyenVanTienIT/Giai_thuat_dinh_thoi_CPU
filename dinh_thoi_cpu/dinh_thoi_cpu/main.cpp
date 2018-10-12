@@ -10,6 +10,7 @@ using namespace std;
 Process listProcess[20];
 Process listTest[20];
 int n, j, ok[20];
+int time_quantum;
 
 
 void Clone() {
@@ -77,7 +78,12 @@ void setup() {
 	do {
 		cout <<"\t----------------NHAP VAO DU LIEU---------------"<<endl;
 		cout <<"So luong tien trinh: n = ";
+		fflush(stdin);
 		cin >> n;
+		//cout << endl;
+		cout << "Nhap vao thoi gian dinh muc = ";
+		fflush(stdin);
+		cin >> time_quantum;
 		cout << endl;
 	} while ((n <= 0) || (n > 20));
 	fflush(stdin);
@@ -235,13 +241,9 @@ void STR() {
 	Clone();
 	sort();
 	
-	int sum_time_cho = 0;
-		
+	int sum_time_cho = 0;	
 	int sum_time_xuly = 0;
-
 	int i = 0;
-
-	
 	int index = -1; // vi tri co tien trinh co time xu ly nho nhat
 
 	for (int i = 0; i < n; ++i) {
@@ -308,17 +310,110 @@ void STR() {
 }
 
 
+
+
 void RR() {
 	Clone();
 	sort();
+	int sum_time_delay = 0;
+	int sum_time_xuly = 0;
+	Process listRR[20];
+	int length = 0;
+	int time_start = listTest[0].getT_vao();
+	int check_process = false;
+
+	while (true) {
+		if (!checkProcess()) break;
+		for (int i = time_start; i < time_start + time_quantum; ++i) {
+
+			if (i == time_start) {
+				cout << i << endl;
+				if (check_process) {
+					check_process = false;
+				}
+				else {
+					
+					if (length > 1)  //  xoay vong mang cac tien trinh
+					{
+						Process tam = listRR[0];
+						for (int x = 0; x < length; ++x) { // thuc hien copy mang
+							listRR[x] = listRR[x+1];
+							if (x == length - 1)
+							{
+								listRR[x] = tam;
+							}
+						}
+					}
+					for (int j = 0; j < n; j++)  // add vao tien trinh xuat hien 
+					{
+						if (listTest[j].getT_vao() >= time_start && listTest[j].getT_vao() < time_start + time_quantum)
+						{
+							listRR[length] = listTest[j];  // roi add tien trinh xuat hien trong khoang thoi gian 
+							length++;
+						}
+					}
+				}
+			}
+
+			if (length >= 1) {
+				listRR[0].setT_xuly(listRR[0].getT_xuly() - 1);
+				for (int k = 0; k < n; ++k) {  // 
+					if (listTest[k].getT_vao() == listRR[0].getT_vao()) {
+						listTest[k].setT_xuly(listTest[k].getT_xuly() - 1);
+						cout << "tien trinh p" << k + 1 << " dang chay"<< endl;
+						break;
+					}
+				}
+
+				
+				if (listRR[0].getT_xuly() == 0)   // trong qua trinh chay ma tien trinh nao chay het thi bo khoi hang doi
+				{
+					for (int j = 0; j < length - 1; ++j) {
+						listRR[j] = listRR[j + 1];
+					}
+					--length;
+					time_start = i + 1;
+					check_process = true;
+					break;
+				}
+
+				for (int y = 1; y < length; ++y) {  // tinh time delay
+					cout << "---------tien trinh " << listRR[y].getName() << " dang cho" << endl;
+					sum_time_delay++;
+				}
+			}
+		}
+
+		if (check_process)
+		{
+			continue;
+		}
+		else {
+			time_start = time_start + time_quantum;
+		}
+	}
+
+	cout << "thoi gian cho cua cac tien trinh la :" << sum_time_delay << endl;
+
 }
 
 int main() {
 
+	/*
+	example:
+	p1		11		0
+	p2		7		3
+	p3		19		8
+	p4		4		13
+	p5		9		17
+	
+	*/
+
 	setup();
 	//FCFS();
 	//SJF();
-	STR();
+	//STR();
+	RR();
 	Ouput(listTest);
 	system("pause");
 
