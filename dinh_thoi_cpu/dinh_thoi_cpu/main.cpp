@@ -326,6 +326,8 @@ void RR() {
 		if (!checkProcess()) break;
 		for (int i = time_start; i < time_start + time_quantum; ++i) {
 
+			
+
 			if (i == time_start) {
 				cout << i << endl;
 				if (check_process) {
@@ -344,24 +346,50 @@ void RR() {
 							}
 						}
 					}
-					for (int j = 0; j < n; j++)  // add vao tien trinh xuat hien 
+					/*for (int j = 0; j < n; j++)  // add vao tien trinh xuat hien 
 					{
 						if (listTest[j].getT_vao() >= time_start && listTest[j].getT_vao() < time_start + time_quantum)
 						{
 							listRR[length] = listTest[j];  // roi add tien trinh xuat hien trong khoang thoi gian 
 							length++;
 						}
-					}
+					}*/
+				}
+			}
+
+			for (int j = 0; j < n; j++)  // add vao tien trinh xuat hien 
+			{
+				if (listTest[j].getT_vao() == i)
+				{
+					listRR[length] = listTest[j];  // roi add tien trinh xuat hien trong khoang thoi gian 
+					length++;
 				}
 			}
 
 			if (length >= 1) {
 				listRR[0].setT_xuly(listRR[0].getT_xuly() - 1);
+				
 				for (int k = 0; k < n; ++k) {  // 
 					if (listTest[k].getT_vao() == listRR[0].getT_vao()) {
 						listTest[k].setT_xuly(listTest[k].getT_xuly() - 1);
 						cout << "tien trinh p" << k + 1 << " dang chay"<< endl;
 						break;
+					}
+				}
+
+				if (length > 1)
+				{
+					for (int y = 1; y < length; ++y) {  // tinh time delay
+						cout << "---------tien trinh " << listRR[y].getName() << " dang cho-----------" << endl;
+						sum_time_delay++;
+						listRR[y].setT_cho(listRR[y].getT_cho() + 1);
+						for (int k = 0; k < n; ++k) {  // 
+							if (listTest[k].getT_vao() == listRR[y].getT_vao()) {
+								listTest[k].setT_cho(listRR[y].getT_cho());
+								break;
+							}
+						}
+						
 					}
 				}
 
@@ -376,12 +404,14 @@ void RR() {
 					check_process = true;
 					break;
 				}
-
+			}
+			/*if (length > 1)
+			{
 				for (int y = 1; y < length; ++y) {  // tinh time delay
-					cout << "---------tien trinh " << listRR[y].getName() << " dang cho" << endl;
+					cout << "---------tien trinh " << listRR[y].getName() << " dang cho-----------" << endl;
 					sum_time_delay++;
 				}
-			}
+			}*/
 		}
 
 		if (check_process)
@@ -394,6 +424,10 @@ void RR() {
 	}
 
 	cout << "thoi gian cho cua cac tien trinh la :" << sum_time_delay << endl;
+
+	for (int i = 0; i < n; ++i) {
+		cout << "thoi gian cho cua " << listTest[i].getName() << " la" << listTest[i].getT_cho() << endl;
+	}
 
 }
 
