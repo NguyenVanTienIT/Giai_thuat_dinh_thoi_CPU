@@ -88,7 +88,6 @@ void setup() {
 	} while ((n <= 0) || (n > 20));
 	fflush(stdin);
 	Input();
-
 	//Ouput(listTest);
 }
 
@@ -121,8 +120,7 @@ void FCFS() {
 		}
 
 		cout << "\nThoi gian cho trung binh la " << sum_timecho / (n+1)<<endl;
-		cout << "\nTong thoi gian thuc hien la " << time_chay << endl;
-	
+		//cout << "\nTong thoi gian thuc hien la " << time_chay << endl;
 }
 
 void sortSJF() {
@@ -219,7 +217,6 @@ void SJF() {
 			sum_timecho += time_cho;
 		}
 	}
-
 	cout << "\nThoi gian cho trung binh la " << sum_timecho / n << endl;
 	cout << "\nTong thoi gian thuc hien la " << time_chay << endl;
 
@@ -265,11 +262,8 @@ void STR() {
 							sum_time_cho += listTest[index].getT_xuly();
 						}
 					}
-
 					listTest[index].setT_xuly(0);
-
 				}
-
 		}
 		else {
 			//cout << "-----------tu " << listTest[i].getT_vao() << "den " << listTest[i + 1].getT_vao() << "---------" << endl;
@@ -295,13 +289,9 @@ void STR() {
 						sum_time_cho ++;
 					}
 				}
-
 				//cout << "Tien trinh p" << index + 1 << " dang chay" << endl;
-
 				int time = listTest[index].getT_xuly();
 				listTest[index].setT_xuly(time - 1);
-
-
 			}
 			//cout << "---------------------------------------" << endl;
 		}
@@ -326,8 +316,6 @@ void RR() {
 		if (!checkProcess()) break;
 		for (int i = time_start; i < time_start + time_quantum; ++i) {
 
-			
-
 			if (i == time_start) {
 				cout << i << endl;
 				if (check_process) {
@@ -346,14 +334,6 @@ void RR() {
 							}
 						}
 					}
-					/*for (int j = 0; j < n; j++)  // add vao tien trinh xuat hien 
-					{
-						if (listTest[j].getT_vao() >= time_start && listTest[j].getT_vao() < time_start + time_quantum)
-						{
-							listRR[length] = listTest[j];  // roi add tien trinh xuat hien trong khoang thoi gian 
-							length++;
-						}
-					}*/
 				}
 			}
 
@@ -392,7 +372,6 @@ void RR() {
 						
 					}
 				}
-
 				
 				if (listRR[0].getT_xuly() == 0)   // trong qua trinh chay ma tien trinh nao chay het thi bo khoi hang doi
 				{
@@ -405,15 +384,7 @@ void RR() {
 					break;
 				}
 			}
-			/*if (length > 1)
-			{
-				for (int y = 1; y < length; ++y) {  // tinh time delay
-					cout << "---------tien trinh " << listRR[y].getName() << " dang cho-----------" << endl;
-					sum_time_delay++;
-				}
-			}*/
 		}
-
 		if (check_process)
 		{
 			continue;
@@ -433,6 +404,9 @@ void RR() {
 
 int main() {
 
+	bool exit = false;
+	bool set = true;
+
 	/*
 	example:
 	p1		11		0
@@ -442,13 +416,125 @@ int main() {
 	p5		9		17
 	
 	*/
+	while (true) {
+		char option;
+		if (set)
+		{
+			setup();
+		}
+		
+		cout << "\t\t\t===================Option===================" << endl;
+		cout << "\t\t\t1.Thuat toan FCFS" << endl;
+		cout << "\t\t\t2.Thuat toan SJF" << endl;
+		cout << "\t\t\t3.Thuat toan STR" << endl;
+		cout << "\t\t\t4.Thuat toan RR" << endl;
+		cout << "\t\t\t5.Tat ca giai thuat" << endl;
+		cout << "\t\t\t============================================" << endl;
+		cin >> option;
+		if (option == '1')
+		{
+			system("cls");
+			FCFS();
+			char a;
+			cout << "ban co muon tiep tuc khong neu co thi nhan phim bat ki , neu khong nhan 0 : ";
+			cin >> a;
+			if (a == '0')
+			{
+				break;
+			}
 
-	setup();
-	//FCFS();
-	//SJF();
-	//STR();
-	RR();
-	Ouput(listTest);
+		}
+		else if (option == '2')
+		{
+			system("cls");
+			SJF();
+			char a;
+			cout << "ban co muon tiep tuc khong neu co thi nhan phim bat ki , neu khong nhan 0 : ";
+			cin >> a;
+			if (a == '0')
+			{
+				break;
+			}
+		}
+		else if (option == '3')
+		{
+			system("cls");
+			STR();
+			char a;
+			cout << "ban co muon tiep tuc khong neu co thi nhan phim bat ki , neu khong nhan 0 : ";
+			cin >> a;
+			if (a == '0')
+			{
+				break;
+			}
+		}
+		else if (option == '4')
+		{
+			system("cls");
+			RR();
+			char a;
+			cout << "ban co muon tiep tuc khong neu co thi nhan phim bat ki , neu khong nhan 0 : ";
+			cin >> a;
+			if (a == '0')
+			{
+				break;
+			}
+		}
+		else if (option == '5')
+		{
+			system("cls");
+			FCFS();
+			SJF();
+			STR();
+			RR();
+			char a;
+			cout << "ban co muon tiep tuc khong neu co thi nhan phim bat ki , neu khong nhan 0 : ";
+			cin >> a;
+			if (a == '0')
+			{
+				break;
+			}
+		}
+
+
+		while (true) {
+			char chon;
+			cout << "\t\t\t===================Option===================" << endl;
+			cout << "\t\t\t1.Nhap lai n" << endl;
+			cout << "\t\t\t2.Nhap lai tat ca" << endl;
+			cout << "\t\t\t3.Thoat chuong trinh" << endl;
+			cout << "\t\t\t4.Quay Lai" << endl;
+			cout << "\t\t\t============================================" << endl;
+			cin >> chon;
+			if (chon == '1')
+			{
+				cout << "\t\t\tMoi nhap vao thoi gian dinh muc = ";
+				cin >> time_quantum;
+				set = false;
+			}
+			else if (chon == '2') {
+				set = true;
+				break;
+			}
+			else if (chon == '3')
+			{
+				exit = true;
+				break;
+			}
+			else
+			{
+				set = false;
+				break;
+			}
+		}
+
+		if (exit) {
+			break;
+		}
+
+	}
+
+	//Ouput(listTest);
 	system("pause");
 
 	return 0;
